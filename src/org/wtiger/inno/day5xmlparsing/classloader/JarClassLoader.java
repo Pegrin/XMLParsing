@@ -1,7 +1,5 @@
 package org.wtiger.inno.day5xmlparsing.classloader;
 
-import sun.net.www.protocol.jar.URLJarFile;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +8,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -37,7 +36,7 @@ public class JarClassLoader extends ClassLoader {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        try(InputStream is = url.openStream()){
+        try (InputStream is = url.openStream()) {
             Files.copy(is, Paths.get(jarFile), StandardCopyOption.REPLACE_EXISTING);
 
         } catch (IOException e) {
@@ -62,7 +61,18 @@ public class JarClassLoader extends ClassLoader {
 
         try {
             JarFile jar = new JarFile(jarFile);
+            Enumeration<JarEntry> entries = jar.entries();
+            JarEntry anEntry;
             JarEntry entry = jar.getJarEntry(className + ".class");
+            if (entry == null) while (entries.hasMoreElements()) {
+                anEntry = entries.nextElement();
+                if (!anEntry.isDirectory()) {
+                    String name = anEntry.getName();
+                    if (name.endsWith(className + ".class")) {
+                        entry = anEntry;
+                    }
+                }
+            }
             InputStream is = jar.getInputStream(entry);
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             int nextValue = is.read();
@@ -70,9 +80,13 @@ public class JarClassLoader extends ClassLoader {
                 byteStream.write(nextValue);
                 nextValue = is.read();
             }
-
+            String classAndPack = entry.getName();
+            classAndPack = classAndPack.replace('.', ' ');
+            classAndPack = classAndPack.replace('/', '.');
+            String classPath = classAndPack.split(" ")[0];
             classByte = byteStream.toByteArray();
-            result = defineClass(className, classByte, 0, classByte.length, null);
+
+            result = defineClass(classPath, classByte, 0, classByte.length);
             classes.put(className, result);
             return result;
         } catch (Exception e) {

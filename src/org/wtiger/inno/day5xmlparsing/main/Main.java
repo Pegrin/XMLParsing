@@ -16,18 +16,21 @@ import java.nio.file.StandardCopyOption;
 
 public class Main {
     private static final String PATH_TO_ANIMAL = "https://github.com/Pegrin/Animal/blob/master/Animal.jar?raw=true";
+    private static final String PATH_TO_MAXS_ANIMAL = "https://gitlab.com/pqdn13/edy_files/raw/master/Animal.jar";
+
 
     public static Object getObjectFromURL(String path) {
 
         return null;
     }
 
+
     public static void main(String[] args) {
 
 
         try {
             JarClassLoader jarClassLoader = new JarClassLoader();
-            Class aClass = jarClassLoader.loadClassFromURL("Animal", PATH_TO_ANIMAL);
+            Class aClass = jarClassLoader.loadClassFromURL("Animal", PATH_TO_MAXS_ANIMAL);
             Object o = aClass.newInstance();
 //        People p1 = new People("Петя", 18, 25000.00);
 //        People p2 = new People("Виктор Иванович", 29, 45000.00);

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root myMission="serialized object by org.wtiger.inno.day5xmlparsing">
-<Object type="Animal"/>
-<field id="name" type="java.lang.String" value="Шушпанчик"/>
-<field id="weight" type="int" value="0"/>
-<field id="height" type="int" value="0"/>
-<field id="sound" type="java.lang.String" value=""/>
+<Object type="ru.babanin.animals.Animal"/>
+<field id="name" type="java.lang.String" value="Cat,"/>
+<field id="sex" type="boolean" value="false"/>
+<field id="age" type="int" value="3"/>
 </root>
