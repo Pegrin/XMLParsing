@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root myMission="serialized object by org.wtiger.inno.day5xmlparsing">
-<Object type="org.wtiger.inno.day5xmlparsing.anotherone.People"/>
-<field id="name" type="java.lang.String" value="Петя"/>
-<field id="age" type="java.lang.Integer" value="18"/>
-<field id="salary" type="java.lang.Double" value="25000.0"/>
-<field id="a" type="[I" value="[I@677327b6"/>
-<field id="b" type="[I" value="[I@14ae5a5"/>
-<field id="people" type="org.wtiger.inno.day5xmlparsing.anotherone.People" value="null"/>
-<Object type="org.wtiger.inno.day5xmlparsing.anotherone.People"/>
-<field id="name" type="java.lang.String" value="Виктор Иванович"/>
-<field id="age" type="java.lang.Integer" value="29"/>
-<field id="salary" type="java.lang.Double" value="45000.0"/>
-<field id="a" type="[I" value="[I@7f31245a"/>
-<field id="b" type="[I" value="[I@6d6f6e28"/>
-<field id="people" type="org.wtiger.inno.day5xmlparsing.anotherone.People" value="null"/>
+<Object type="Animal"/>
+<field id="name" type="java.lang.String" value="Шушпанчик"/>
+<field id="weight" type="int" value="0"/>
+<field id="height" type="int" value="0"/>
+<field id="sound" type="java.lang.String" value=""/>
 </root>
