@@ -15,8 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class Main {
-    private static final String pathToAnimal = "https://github.com/Pegrin/Animal/blob/master/Animal.jar?raw=true";
-    private static final String localJar = "tmp.jar";
+    private static final String PATH_TO_ANIMAL = "https://github.com/Pegrin/Animal/blob/master/Animal.jar?raw=true";
 
     public static Object getObjectFromURL(String path) {
 
@@ -25,18 +24,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        URL url = null;
 
         try {
-            url = new URL(pathToAnimal);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        try (InputStream is = url.openStream()) {
-            Files.copy(is, Paths.get(localJar), StandardCopyOption.REPLACE_EXISTING);
-            JarClassLoader jarClassLoader = new JarClassLoader(localJar);
-            Class aClass = jarClassLoader.loadClass("Animal");
+            JarClassLoader jarClassLoader = new JarClassLoader();
+            Class aClass = jarClassLoader.loadClassFromURL("Animal", PATH_TO_ANIMAL);
             Object o = aClass.newInstance();
 //        People p1 = new People("Петя", 18, 25000.00);
 //        People p2 = new People("Виктор Иванович", 29, 45000.00);
@@ -61,8 +52,6 @@ public class Main {
                 e.printStackTrace();
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

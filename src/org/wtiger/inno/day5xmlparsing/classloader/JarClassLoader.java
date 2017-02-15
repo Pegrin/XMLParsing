@@ -3,7 +3,13 @@ package org.wtiger.inno.day5xmlparsing.classloader;
 import sun.net.www.protocol.jar.URLJarFile;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Hashtable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -12,15 +18,31 @@ import java.util.jar.JarFile;
  * Created by olymp on 15.02.2017.
  */
 public class JarClassLoader extends ClassLoader {
-    private String jarFile = "jar/test.jar"; //Path to the jar file
+    private String jarFile = "tmp.jar"; //Path to the jar file
     private Hashtable classes = new Hashtable(); //used to cache already defined classes
 
-    public JarClassLoader(String jarFile) {
+    public JarClassLoader() {
         super(JarClassLoader.class.getClassLoader()); //calls the parent class loader's constructor
-        this.jarFile = jarFile;
     }
 
     public Class loadClass(String className) throws ClassNotFoundException {
+        return findClass(className);
+    }
+
+    public Class loadClassFromURL(String className, String URL) throws ClassNotFoundException {
+        java.net.URL url = null;
+
+        try {
+            url = new URL(URL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try(InputStream is = url.openStream()){
+            Files.copy(is, Paths.get(jarFile), StandardCopyOption.REPLACE_EXISTING);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return findClass(className);
     }
 
