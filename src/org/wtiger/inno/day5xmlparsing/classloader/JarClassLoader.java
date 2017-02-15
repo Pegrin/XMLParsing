@@ -67,8 +67,9 @@ public class JarClassLoader extends ClassLoader {
             if (entry == null) while (entries.hasMoreElements()) {
                 anEntry = entries.nextElement();
                 if (!anEntry.isDirectory()) {
-                    String name = anEntry.getName();
-                    if (name.endsWith(className + ".class")) {
+                    String[] dirsAndName = anEntry.getName().split("/");
+                    String name = dirsAndName[dirsAndName.length-1];
+                    if (name.equals(className + ".class")) {
                         entry = anEntry;
                     }
                 }
@@ -80,10 +81,12 @@ public class JarClassLoader extends ClassLoader {
                 byteStream.write(nextValue);
                 nextValue = is.read();
             }
+
             String classAndPack = entry.getName();
             classAndPack = classAndPack.replace('.', ' ');
             classAndPack = classAndPack.replace('/', '.');
             String classPath = classAndPack.split(" ")[0];
+
             classByte = byteStream.toByteArray();
 
             result = defineClass(classPath, classByte, 0, classByte.length);
